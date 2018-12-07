@@ -1,5 +1,5 @@
 # gestureGlove
-Wearable Keyboard is an wareble device recoginized the user hand gesture as using the keyboard. The core of the device is the Arduino Leonardo.
+gestureGlove is a wearable keyboard device that can recognize user hand gestures as a virtual keyboard. The core of the device is the Arduino Leonardo with an ATMEGA32u4 microcontroller.
 
 ## Getting Started
 
@@ -26,5 +26,6 @@ These instructions will help you recreate gestureGlove for testing and personal 
 
 ## Authors
 
-* **Marvin Mallari** - *Arduino code and hardware design*, repo-owner
-* **Dawei Zhang** - *HandGesture detect*
+* **Marvin Mallari** - *Research, Base Hardware Designer, MPU i2c Multiplexer code*, repo-owner
+* **Dawei Zhang** - *Research, Capacitive Hardware Designer, Hand Gesture detection code*
+* **Kai He** - *Research, Hardware Research, Presentation*
