@@ -3,10 +3,10 @@
 //----------------------------------------------------------------------------//
 // Dawei Zhang                                                                //
 // Marvin Anthony Mallari                                                     //
+// Kai He                                                                     //
 ////////////////////////////////////////////////////////////////////////////////
 //                                   Rules                                    //
 //----------------------------------------------------------------------------//
-// Author name per function or chunk of code                                  //
 // Provide github or author for any external libraries                        //
 // Dynamic Memory (RAM) is small, use as little as possible                   //
 //   -If possible use #define, const, byte, PROGMEM                           //
@@ -19,7 +19,7 @@
 // * The MPU-6050 supports 2 I2C addresses, 0x68 & 0x69                       //
 // * The GY-521 breakout board pulls AD0 low to set address to 0x68           //
 // * This address manipulation schema works like Chip Select                  //
-// * We will use pins defined in CSpin[] to pull A0 lines LOW or HIGH         //
+// * We will use pins defined in CSpin[] to pull AD0 lines LOW or HIGH        //
 // ** Initially all CSpin[]s will be set HIGH 0x69                            //
 // ** To read an individual sensor, a single CSpin will be set LOW 0x68       //
 // ** Tockn's library will read the sensor based on default address 0x68      //
@@ -28,6 +28,7 @@
 //                                                                            //
 // MPU6050 drift, limitations, work around [WORK IN PROGRESS]                 //
 // * USE DATATYPE ANGLE (calibrated with accelerometer)                       //
+// * New schema based on vector guessing avoids sensor drift issue            //
 //                                                                            //
 // Capacitive Touch schema:                                                   //
 // * using vector guessing to figure out position instead of trinonometry math//
@@ -41,7 +42,7 @@
 #include "Keyboard.h"
 #include <CapacitiveSensor.h>
 
-// define i2c address change pins
+// define i2c address change pins using Arduino pins A0, D15, D14, D16, D10
 const byte CSpin[] = {A0,15,14,16,10};
 
 CapacitiveSensor cs_4_5 = CapacitiveSensor(4,5);
@@ -381,12 +382,12 @@ void updateAccel(){
   MPUZ[4] = MPU4.getAccZ();
 }
 
+//math to do vector guessing
 double distanceBetweenTwoPoints(double x, double y, double a, double b){
   return sqrt(pow(x - a, 2) + pow(y - b, 2));
 }
 
 void keyboardEngine(){
-  
   //get the orgin
       updateAngle();
        Serial.print("x: ");
